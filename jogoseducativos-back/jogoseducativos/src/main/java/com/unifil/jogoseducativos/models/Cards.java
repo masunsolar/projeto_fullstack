@@ -6,20 +6,31 @@ import java.util.List;
 
 public class Cards {
 
-    private final List<Card> deck;
+    private List<Card> deck;
 
     public Cards() {
         this.deck = createDeck();
-        // TODO permitir seed no embaralhamento para testes deterministas
         Collections.shuffle(this.deck);
+    }
+
+    public Cards(List<Card> deck) {
+        this.deck = deck;
+    }
+
+    public List<Card> getDeck() {
+        return deck;
+    }
+
+    public void setDeck(List<Card> deck) {
+        this.deck = deck;
     }
 
     public Card drawCard() {
         if (deck.isEmpty()) {
-            // TODO decidir estrategia quando acabar baralho (reshuffle ou encerrar jogo)
             throw new IllegalStateException("Baralho vazio. Reinicie a rodada.");
         }
-        return deck.removeFirst();
+
+        return deck.remove(0);
     }
 
     private List<Card> createDeck() {
@@ -43,6 +54,7 @@ public class Cards {
 
     private void addFaceCards(List<Card> cards, String[] suits) {
         String[] ranks = {"J", "Q", "K"};
+
         for (String suit : suits) {
             for (String rank : ranks) {
                 cards.add(new Card(rank, suit, 10));

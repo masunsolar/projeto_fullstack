@@ -1,0 +1,167 @@
+﻿* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #040114;
+  color: #1f1f1f;
+}
+
+.app-aula {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.header-personalizado {
+  background: #101828;
+  color: #ffffff;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.header-personalizado ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin: 10px 0 0;
+}
+
+.titulo-secao {
+  margin: 0;
+}
+
+
+.bloco-componentes {
+  width: 750px;
+  height: 420px;
+  border: 16px solid #873e23;
+  background: #2a9b08;
+  border-radius: 24px;
+
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.55),
+    inset 0 0 18px rgba(0, 0, 0, 0.35);
+}
+
+.mesa-jogo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+}
+
+.linha-cartas {
+  display: flex;
+  gap: 10px;
+}
+
+.carta {
+  width: 56px;
+  height: 76px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: #f9fafb;
+  font-weight: bold;
+}
+
+button {
+  margin-right: 8px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #e0f000;
+  color: #464646;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #8d9704;
+}
+
+h3 {
+  margin-top: 0;
+  color: #f9fafb;
+}
+
+p {
+  line-height: 1.4;
+}
+
+.painel-controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exemplo-props {
+  border-left: 4px solid #1d4ed8;
+}
+
+.painel-fora-mesa {
+  width: 100%;
+  margin: 18px auto 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.painel-fora-mesa input {
+  width: 260px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 2px solid white;
+  background: #333;
+  color: white;
+  font-size: 16px;
+}
+
+.painel-fora-mesa button,
+.painel-fora-mesa .botao {
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  background: #d9ff00;
+  color: #111;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.painel-fora-mesa button:hover,
+.painel-fora-mesa .botao:hover {
+  transform: scale(1.04);
+}
+
+.painel-fora-mesa button:disabled,
+.painel-fora-mesa .botao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .app-aula {
+    padding: 16px;
+  }
+
+  button {
+    width: 100%;
+    margin-right: 0;
+  }
+}

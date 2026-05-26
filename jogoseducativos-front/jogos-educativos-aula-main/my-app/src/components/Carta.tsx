@@ -3,6 +3,14 @@
 }
 
 function Carta({ carta }: CartaProps) {
+  if (carta === 'OCULTA') {
+    return (
+      <div className="carta carta-oculta">
+        <span>?</span>
+      </div>
+    )
+  }
+
   const valor = carta.slice(0, -1)
   const naipe = carta.slice(-1)
 

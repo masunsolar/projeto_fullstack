@@ -1,37 +1,73 @@
-﻿import { useEffect, useState } from 'react'
-import './App.css'
-import AreaJogo from './components/AreaJogo'
-import HeaderPersonalizado from './components/headerPersonalizado'
-import PainelControles from './components/PainelControles'
-import TituloSecao from './components/TituloSecao'
+﻿import { useEffect, useState } from 'react';
+import './App.css';
+import AreaJogo from './components/AreaJogo';
+import HeaderPersonalizado from './components/headerPersonalizado';
+import PainelControles from './components/PainelControles';
+import TituloSecao from './components/TituloSecao';
+import Resultado from './components/Resultado';
 
 export type BlackjackGame = {
-  gameId: string
-  playerName: string
-  playerCards: string[]
-  dealerCards: string[]
-  playerScore: number
-  dealerScore: number
-  finished: boolean
-  result: string
-}
+  gameId: string;
+  playerName: string;
+  playerCards: string[];
+  dealerCards: string[];
+  playerScore: number;
+  dealerScore: number;
+  finished: boolean;
+  result: string;
+};
 
 function App() {
-  const [playerName, setPlayerName] = useState('Masun')
-  const [game, setGame] = useState<BlackjackGame | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [erro, setErro] = useState('')
+  const [playerName, setPlayerName] = useState('Masun');
+  const [game, setGame] = useState<BlackjackGame | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState('');
+
+  const [contador, setContador] = useState({
+    vitorias: 0,
+    derrotas: 0,
+    empates: 0,
+  });
+
+  const [ultimoJogoContado, setUltimoJogoContado] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     if (game) {
-      console.log('Partida atualizada:', game)
+      console.log('Partida atualizada:', game);
     }
-  }, [game])
+  }, [game]);
+
+  useEffect(() => {
+    if (!game?.finished) return;
+
+    if (game.gameId === ultimoJogoContado) return;
+
+    if (game.result === 'PLAYER_WIN' || game.result === 'DEALER_BUST') {
+      setContador((contadorAtual) => ({
+        ...contadorAtual,
+        vitorias: contadorAtual.vitorias + 1,
+      }));
+    } else if (game.result === 'DEALER_WIN' || game.result === 'PLAYER_BUST') {
+      setContador((contadorAtual) => ({
+        ...contadorAtual,
+        derrotas: contadorAtual.derrotas + 1,
+      }));
+    } else if (game.result === 'DRAW') {
+      setContador((contadorAtual) => ({
+        ...contadorAtual,
+        empates: contadorAtual.empates + 1,
+      }));
+    }
+
+    setUltimoJogoContado(game.gameId);
+  }, [game, ultimoJogoContado]);
 
   async function iniciarJogo() {
     try {
-      setLoading(true)
-      setErro('')
+      setLoading(true);
+      setErro('');
 
       const resposta = await fetch('/api/blackjack/start', {
         method: 'POST',
@@ -41,66 +77,66 @@ function App() {
         body: JSON.stringify({
           playerName: playerName,
         }),
-      })
+      });
 
       if (!resposta.ok) {
-        throw new Error('Erro ao iniciar jogo')
+        throw new Error('Erro ao iniciar jogo');
       }
 
-      const dados: BlackjackGame = await resposta.json()
-      setGame(dados)
+      const dados: BlackjackGame = await resposta.json();
+      setGame(dados);
     } catch {
-      setErro('Não consegui conectar com o backend.')
+      setErro('Não consegui conectar com o backend.');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function comprarCarta() {
-    if (!game) return
+    if (!game) return;
 
     try {
-      setLoading(true)
-      setErro('')
+      setLoading(true);
+      setErro('');
 
       const resposta = await fetch(`/api/blackjack/${game.gameId}/hit`, {
         method: 'POST',
-      })
+      });
 
       if (!resposta.ok) {
-        throw new Error('Erro ao comprar carta')
+        throw new Error('Erro ao comprar carta');
       }
 
-      const dados: BlackjackGame = await resposta.json()
-      setGame(dados)
+      const dados: BlackjackGame = await resposta.json();
+      setGame(dados);
     } catch {
-      setErro('Erro ao comprar carta.')
+      setErro('Erro ao comprar carta.');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function parar() {
-    if (!game) return
+    if (!game) return;
 
     try {
-      setLoading(true)
-      setErro('')
+      setLoading(true);
+      setErro('');
 
       const resposta = await fetch(`/api/blackjack/${game.gameId}/stand`, {
         method: 'POST',
-      })
+      });
 
       if (!resposta.ok) {
-        throw new Error('Erro ao parar')
+        throw new Error('Erro ao parar');
       }
 
-      const dados: BlackjackGame = await resposta.json()
-      setGame(dados)
+      const dados: BlackjackGame = await resposta.json();
+      setGame(dados);
     } catch {
-      setErro('Erro ao parar a jogada.')
+      setErro('Erro ao parar a jogada.');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -132,8 +168,22 @@ function App() {
           </p>
         )}
       </section>
+      <section className="contador-jogo">
+        <p>Vitórias: {contador.vitorias}</p>
+        <p>Derrotas: {contador.derrotas}</p>
+        <p>Empates: {contador.empates}</p>
+      </section>
+      {game?.finished && (
+        <Resultado
+          resultado={game.result}
+          playerScore={game.playerScore}
+          dealerScore={game.dealerScore}
+          onNovaRodada={iniciarJogo}
+          loading={loading}
+        />
+      )}
     </main>
-  )
+  );
 }
 
-export default App
+export default App;

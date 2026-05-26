@@ -1,19 +1,29 @@
-﻿import type { BlackjackGame } from '../App'
-import MaoJogador from './MaoJogador'
-import PlacarMesa from './PlacarMesa'
+﻿import type { BlackjackGame } from '../App';
+import MaoJogador from './MaoJogador';
+import PlacarMesa from './PlacarMesa';
 
 type AreaJogoProps = {
-  game: BlackjackGame
-}
+  game: BlackjackGame;
+};
 
 function AreaJogo({ game }: AreaJogoProps) {
+  const cartasDealer = game.finished
+    ? game.dealerCards
+    : game.dealerCards.map((carta, index) => {
+        if (index === 0) {
+          return carta;
+        }
+
+        return 'OCULTA';
+      });
+
   return (
     <section className="mesa-jogo">
       <MaoJogador
         titulo="Mão do Dealer"
-        cartas={game.dealerCards}
+        cartas={cartasDealer}
         pontos={game.dealerScore}
-        tipo="dealer"
+        mostrarPontos={false}
       />
 
       <PlacarMesa
@@ -27,10 +37,10 @@ function AreaJogo({ game }: AreaJogoProps) {
         titulo={`Mão de ${game.playerName}`}
         cartas={game.playerCards}
         pontos={game.playerScore}
-        tipo="jogador"
+        mostrarPontos={false}
       />
     </section>
-  )
+  );
 }
 
-export default AreaJogo
+export default AreaJogo;

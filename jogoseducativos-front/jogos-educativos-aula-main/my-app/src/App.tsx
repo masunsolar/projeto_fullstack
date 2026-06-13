@@ -54,11 +54,6 @@ function App() {
         ...contadorAtual,
         derrotas: contadorAtual.derrotas + 1,
       }));
-    } else if (game.result === 'DRAW') {
-      setContador((contadorAtual) => ({
-        ...contadorAtual,
-        empates: contadorAtual.empates + 1,
-      }));
     }
 
     setUltimoJogoContado(game.gameId);
@@ -171,7 +166,6 @@ function App() {
       <section className="contador-jogo">
         <p>Vitórias: {contador.vitorias}</p>
         <p>Derrotas: {contador.derrotas}</p>
-        <p>Empates: {contador.empates}</p>
       </section>
       {game?.finished && (
         <Resultado

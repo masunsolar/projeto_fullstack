@@ -5,7 +5,7 @@
 Abra um terminal na pasta do backend:
 
 ```powershell
-cd "C:\Users\masun\Desktop\casino completo\jogoseducativos-back\jogoseducativos"
+cd "casino completo\jogoseducativos-back\jogoseducativos"
 .\mvnw.cmd spring-boot:run
 ````
 ---
@@ -15,7 +15,7 @@ cd "C:\Users\masun\Desktop\casino completo\jogoseducativos-back\jogoseducativos"
 Abra outro terminal na pasta do frontend:
 
 ```powershell
-cd "C:\Users\masun\Desktop\casino completo\jogoseducativos-front\jogos-educativos-aula-main\my-app"
+cd "casino completo\jogoseducativos-front\jogos-educativos-aula-main\my-app"
 npm run dev
 ```
 
